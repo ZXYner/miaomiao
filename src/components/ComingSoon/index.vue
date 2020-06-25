@@ -5,9 +5,9 @@
             <ul>
                 <li v-if="pullDown.length">{{pullDown}}</li>
                 <li v-for="item in movieList" :key="item.id">
-                    <div class="pic_show"><img :src="item.img | setWH('128.180')"></div>
+                    <div class="pic_show" @tap="handleToDetail(item.id)"><img :src="item.img | setWH('128.180')"></div>
                     <div class="info_list">
-                        <h2>{{item.nm}}
+                        <h2 @tap="handleToDetail(item.id)">{{item.nm}}
                             <img  v-if="item.version" src="@/assets/maxs.png" />
                         </h2>
                         <p><span class="person">{{item.wish}}</span> 人想看</p>
@@ -68,6 +68,9 @@ export default {
                 }
                 })
             }
+        },
+        handelToDetail(movieId){
+            this.$router.push('/movie/detail/2/'+movieId)
         }
     }
 }

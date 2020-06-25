@@ -2,7 +2,7 @@ import Vue from 'vue';
 import MessageBox from './MessageBox';
 
 
-export var MessageBox = (function() {
+export var messageBox = (function() {
     let defaults = {
         // 默认值
         title: '',
