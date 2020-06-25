@@ -1,20 +1,23 @@
 <template>
    <div class="cinema_body">
-        <ul>
-            <li v-for="item in cinemaList" :key="item.id">
-                <div>
-                    <span>{{item.nm}}</span>
-                    <span class="q"><span class="price">{{item.sellPrice}}</span> 元起</span>
-                </div>
-                <div class="address">
-                    <span>{{item.addr}}</span>
-                    <span>{{item.distancce}}</span>
-                </div>
-                <div class="card">
-                    <div v-for="(data,key) in item.tag" v-if="data===1" :key="key" :class="key | classCard">{{key |formatCard }}</div>
-                </div>
-            </li>
-        </ul>
+       <Loading v-if="isLoading"/>
+       <Scroller v-else>
+            <ul>
+                <li v-for="item in cinemaList" :key="item.id">
+                    <div>
+                        <span>{{item.nm}}</span>
+                        <span class="q"><span class="price">{{item.sellPrice}}</span> 元起</span>
+                    </div>
+                    <div class="address">
+                        <span>{{item.addr}}</span>
+                        <span>{{item.distancce}}</span>
+                    </div>
+                    <div class="card">
+                        <div v-for="(data,key) in item.tag" v-if="data===1" :key="key" :class="key | classCard">{{key |formatCard }}</div>
+                    </div>
+                </li>
+            </ul>
+        </Scroller>
     </div>
 </template>
 
@@ -23,13 +26,19 @@ export default {
     name:'CiList',
     data(){
         return {
-            cinemaList:[]
+            cinemaList:[],
+            isLoading:true,
+            prevCityId:-1
         }
     },
     mounted() {
-        this.axios.get('/api/cinemaList?cityId=10').then((res)=>{
+        let cityId=this.$store.state.city.id;
+        if(cityId===this.prevCityId) return;
+        this.isLoading=true;
+        this.axios.get('/api/cinemaList?cityId='+cityId).then((res)=>{
             if(res.data.msg==='ok'){
-                this.cinemaList=res.data.data.cinemas
+                this.cinemaList=res.data.data.cinemas;
+                this.isLoading=false;
             }
         })
     },

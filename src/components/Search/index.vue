@@ -10,7 +10,7 @@
             <h3>电影/电视剧/综艺</h3>
             <ul>
                 <li v-for="item in movieList" :key="item.id">
-                    <div class="img"><img :src="item.img "></div>
+                    <div class="img"><img :src="item.img | setWH('128.180')"></div>
                     <div class="info">
                         <p><span>{{item.nm}}</span><span>{{item.sc}}</span></p>
                         <p>{{ item.enm }}</p>
@@ -29,7 +29,7 @@ export default {
     data(){
         return{
             message:'',
-            movieList:[]
+            movieList:[],
         }
     },
     methods:{
@@ -43,8 +43,8 @@ export default {
         message(newVal){
             var that=this;
             this.cancleRequest();
-
-            this.axios.get('/api/searchList?cityId=10&kw='+newVal,{
+            let cityId=this.$store.state.city.id;
+            this.axios.get('/api/searchList?cityId='+cityId+'&kw='+newVal,{
                 // c是new cancelToken构造器生成的取消函数
                 cancelToken:new this.axios.CancelToken(function executor(c){
                     that.source=c;
