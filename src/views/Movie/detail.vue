@@ -6,7 +6,8 @@
 		</Header>
 		<div id="content" class="contentDetail">
 			<div class="detail_list">
-				<div class="detail_list_bg"></div>
+                <!-- vue中的filter在style中不起作用 -->
+				<div class="detail_list_bg" :style="{'background-img':'url('+detailMovie.img.replace(/w.h/,'148.202')+')'}"></div>
 				<div class="detail_list_filter"></div>
 				<div class="detail_list_content">
 					<div class="detail_list_img">
